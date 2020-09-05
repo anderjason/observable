@@ -1,0 +1,31 @@
+{
+  "name": "@anderjason/observable",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:anderjason/observable.git"
+  },
+  "author": "Jason Anderson",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf dist && rm -rf test",
+    "test": "tsc -p tsconfig.test.json && node test/index.test && rm -rf test"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "dependencies": {
+    "@anderjason/tests": "git+https://github.com/anderjason/tests.git#dev",
+    "@anderjason/util": "git+https://github.com/anderjason/util.git#dev",
+    "typescript": "^4.0.2"
+  },
+  "devDependencies": {},
+  "bugs": {
+    "url": "https://github.com/anderjason/observable/issues"
+  },
+  "homepage": "https://github.com/anderjason/observable#readme"
+}
