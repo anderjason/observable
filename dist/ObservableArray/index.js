@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ObservableArray = void 0;
 const util_1 = require("@anderjason/util");
-const SimpleEvent_1 = require("../SimpleEvent");
+const TypedEvent_1 = require("../TypedEvent");
 class ObservableArray {
     constructor(values) {
-        this.didChange = SimpleEvent_1.SimpleEvent.ofEmpty();
-        this.didChangeSteps = SimpleEvent_1.SimpleEvent.ofEmpty();
+        this.didChange = TypedEvent_1.TypedEvent.ofEmpty();
+        this.didChangeSteps = TypedEvent_1.TypedEvent.ofEmpty();
         this._isObservableArray = true;
         this.replaceValueAtIndex = (index, value) => {
             if (index < 0) {
@@ -139,6 +139,58 @@ class ObservableArray {
         this._internalMove(oldIndex, newIndex);
         this.didChange.emit([...this._array]);
         this.didChangeSteps.emit(changes);
+    }
+    sync(input) {
+        if (input == null || input.length === 0) {
+            this.clear();
+            return;
+        }
+        let adds = [];
+        let removes = [];
+        let moves = [];
+        input.forEach((newValue, idx) => {
+            if (this._array[idx] !== newValue) {
+                if (this._array[idx] != null) {
+                    removes.push({
+                        type: "remove",
+                        oldIndex: idx,
+                        value: this._array[idx],
+                    });
+                }
+                adds.push({
+                    type: "add",
+                    newIndex: idx,
+                    value: newValue,
+                });
+            }
+        });
+        for (let i = input.length; i < this._array.length; i++) {
+            removes.push({
+                type: "remove",
+                oldIndex: i,
+                value: this._array[i],
+            });
+        }
+        Array.from(removes).forEach((remove) => {
+            if (remove.value == null) {
+                return;
+            }
+            const matchingAdd = adds.find((add) => add.value === remove.value);
+            if (matchingAdd != null) {
+                removes = util_1.ArrayUtil.arrayWithoutValue(removes, remove);
+                adds = util_1.ArrayUtil.arrayWithoutValue(adds, matchingAdd);
+                moves.push({
+                    type: "move",
+                    oldIndex: remove.oldIndex,
+                    newIndex: matchingAdd.newIndex,
+                    value: remove.value,
+                });
+            }
+        });
+        const updates = [...removes, ...moves, ...adds];
+        this._array = [...input];
+        this.didChange.emit(this.toValues());
+        this.didChangeSteps.emit(updates);
     }
     removeValue(value) {
         this.removeAllWhere((v) => v === value);

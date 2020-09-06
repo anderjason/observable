@@ -1,21 +1,21 @@
 import { ArrayUtil, PromiseUtil } from "@anderjason/util";
-import { Handle } from "../Handle";
+import { Receipt } from "../Receipt";
 
-export type SimpleEventSubscription<T> = (
+export type TypedEventSubscription<T> = (
   newValue: T,
   oldValue?: T
 ) => void | Promise<void>;
 
-export class SimpleEvent<T = void> {
-  private _subscriptions: SimpleEventSubscription<T>[] | undefined = undefined;
+export class TypedEvent<T = void> {
+  private _subscriptions: TypedEventSubscription<T>[] | undefined = undefined;
   private _lastValue?: T;
 
-  static ofEmpty<T = void>(): SimpleEvent<T> {
-    return new SimpleEvent<T>();
+  static ofEmpty<T = void>(): TypedEvent<T> {
+    return new TypedEvent<T>();
   }
 
-  static givenLastValue<T>(lastValue: T): SimpleEvent<T> {
-    return new SimpleEvent(lastValue);
+  static givenLastValue<T>(lastValue: T): TypedEvent<T> {
+    return new TypedEvent(lastValue);
   }
 
   private constructor(lastValue?: T) {
@@ -23,9 +23,9 @@ export class SimpleEvent<T = void> {
   }
 
   subscribe(
-    subscription: SimpleEventSubscription<T>,
+    subscription: TypedEventSubscription<T>,
     includeLast: boolean = false
-  ): Handle {
+  ): Receipt {
     if (this._subscriptions == null) {
       this._subscriptions = [];
     }
@@ -36,7 +36,7 @@ export class SimpleEvent<T = void> {
       subscription(this._lastValue);
     }
 
-    return Handle.givenCallback(() => this.unsubscribe(subscription));
+    return Receipt.givenCancelFunction(() => this.unsubscribe(subscription));
   }
 
   async emit(newValue: T): Promise<void> {
@@ -53,7 +53,7 @@ export class SimpleEvent<T = void> {
     }
   }
 
-  private unsubscribe(handler: SimpleEventSubscription<T>): void {
+  private unsubscribe(handler: TypedEventSubscription<T>): void {
     if (this._subscriptions == null) {
       return;
     }

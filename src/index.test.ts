@@ -2,7 +2,7 @@ import { Test } from "@anderjason/tests";
 import "./Observable/index.test";
 import "./ObservableArray/index.test";
 import "./ObservableDict/index.test";
-import "./SimpleEvent/index.test";
+import "./TypedEvent/index.test";
 
 Test.runAll()
   .then(() => {

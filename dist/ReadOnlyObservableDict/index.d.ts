@@ -1,4 +1,4 @@
-import { SimpleEvent } from "../SimpleEvent";
+import { TypedEvent } from "../TypedEvent";
 import { ObservableDict, ObservableDictChange, ObservableDictBase, Dict } from "../ObservableDict";
 export declare class ReadOnlyObservableDict<T = unknown> implements ObservableDictBase<T> {
     static givenObservableDict<T>(observableDict: ObservableDict<T>): ReadOnlyObservableDict<T>;
@@ -6,8 +6,8 @@ export declare class ReadOnlyObservableDict<T = unknown> implements ObservableDi
     private _isObservableDict;
     private constructor();
     get count(): number;
-    get didChange(): SimpleEvent<Dict<T>>;
-    get didChangeSteps(): SimpleEvent<ObservableDictChange<T>[]>;
+    get didChange(): TypedEvent<Dict<T>>;
+    get didChangeSteps(): TypedEvent<ObservableDictChange<T>[]>;
     hasKey(key: string): boolean;
     toOptionalValueGivenKey(key: string): T | undefined;
     toKeys(): Set<string>;

@@ -1,20 +1,20 @@
-import { Handle } from "./Handle";
 import { Observable, ObservableBase } from "./Observable";
 import { ObservableArray, ObservableArrayBase } from "./ObservableArray";
-import { ObservableDict, ObservableDictBase } from "./ObservableDict";
+import { ObservableDict, ObservableDictBase, Dict } from "./ObservableDict";
 import { ObservableSet, ObservableSetBase } from "./ObservableSet";
 import { ReadOnlyObservable } from "./ReadOnlyObservable";
 import { ReadOnlyObservableArray } from "./ReadOnlyObservableArray";
 import { ReadOnlyObservableDict } from "./ReadOnlyObservableDict";
 import { ReadOnlyObservableSet } from "./ReadOnlyObservableSet";
-import { SimpleEvent } from "./SimpleEvent";
+import { Receipt } from "./Receipt";
+import { TypedEvent } from "./TypedEvent";
 
 export {
-  Handle,
+  Dict,
   Observable,
-  ObservableBase,
   ObservableArray,
   ObservableArrayBase,
+  ObservableBase,
   ObservableDict,
   ObservableDictBase,
   ObservableSet,
@@ -23,5 +23,6 @@ export {
   ReadOnlyObservableArray,
   ReadOnlyObservableDict,
   ReadOnlyObservableSet,
-  SimpleEvent,
+  Receipt,
+  TypedEvent,
 };

@@ -1,4 +1,4 @@
-import { SimpleEvent } from "../SimpleEvent";
+import { TypedEvent } from "../TypedEvent";
 import {
   ObservableArray,
   ObservableArrayChange,
@@ -23,11 +23,11 @@ export class ReadOnlyObservableArray<T> implements ObservableArrayBase<T> {
     return this._observableArray.count;
   }
 
-  get didChange(): SimpleEvent<T[]> {
+  get didChange(): TypedEvent<T[]> {
     return this._observableArray.didChange;
   }
 
-  get didChangeSteps(): SimpleEvent<ObservableArrayChange<T>[]> {
+  get didChangeSteps(): TypedEvent<ObservableArrayChange<T>[]> {
     return this._observableArray.didChangeSteps;
   }
 

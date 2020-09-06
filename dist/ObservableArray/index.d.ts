@@ -1,4 +1,4 @@
-import { SimpleEvent } from "../SimpleEvent";
+import { TypedEvent } from "../TypedEvent";
 export interface ObservableArrayChange<T> {
     type: "add" | "remove" | "move";
     value?: T;
@@ -6,16 +6,16 @@ export interface ObservableArrayChange<T> {
     oldIndex?: number;
 }
 export interface ObservableArrayBase<T> {
-    readonly didChange: SimpleEvent<T[]>;
-    readonly didChangeSteps: SimpleEvent<ObservableArrayChange<T>[]>;
+    readonly didChange: TypedEvent<T[]>;
+    readonly didChangeSteps: TypedEvent<ObservableArrayChange<T>[]>;
     hasValue(value: T, fromIndex?: number): boolean;
     toOptionalValueGivenIndex(index: number): T | undefined;
     toIndexOfValue(value: T, fromIndex?: number): number;
     toValues(): T[];
 }
 export declare class ObservableArray<T> implements ObservableArrayBase<T> {
-    readonly didChange: SimpleEvent<T[]>;
-    readonly didChangeSteps: SimpleEvent<ObservableArrayChange<T>[]>;
+    readonly didChange: TypedEvent<T[]>;
+    readonly didChangeSteps: TypedEvent<ObservableArrayChange<T>[]>;
     static ofEmpty<T>(): ObservableArray<T>;
     static givenValues<T>(values: T[]): ObservableArray<T>;
     static isObservableArray(input: any): input is ObservableArrayBase<unknown>;
@@ -28,6 +28,7 @@ export declare class ObservableArray<T> implements ObservableArrayBase<T> {
     addValue(value: T, index?: number): void;
     moveValueAtIndex(oldIndex: number, newIndex: number): void;
     replaceValueAtIndex: (index: number, value: T) => void;
+    sync(input: T[]): void;
     private _internalMove;
     removeValue(value: T): void;
     removeValueAtIndex(index: number): void;

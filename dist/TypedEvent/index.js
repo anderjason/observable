@@ -1,18 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SimpleEvent = void 0;
+exports.TypedEvent = void 0;
 const util_1 = require("@anderjason/util");
-const Handle_1 = require("../Handle");
-class SimpleEvent {
+const Receipt_1 = require("../Receipt");
+class TypedEvent {
     constructor(lastValue) {
         this._subscriptions = undefined;
         this._lastValue = lastValue;
     }
     static ofEmpty() {
-        return new SimpleEvent();
+        return new TypedEvent();
     }
     static givenLastValue(lastValue) {
-        return new SimpleEvent(lastValue);
+        return new TypedEvent(lastValue);
     }
     subscribe(subscription, includeLast = false) {
         if (this._subscriptions == null) {
@@ -22,7 +22,7 @@ class SimpleEvent {
         if (includeLast) {
             subscription(this._lastValue);
         }
-        return Handle_1.Handle.givenCallback(() => this.unsubscribe(subscription));
+        return Receipt_1.Receipt.givenCancelFunction(() => this.unsubscribe(subscription));
     }
     async emit(newValue) {
         const previousValue = this._lastValue;
@@ -43,5 +43,5 @@ class SimpleEvent {
         }
     }
 }
-exports.SimpleEvent = SimpleEvent;
+exports.TypedEvent = TypedEvent;
 //# sourceMappingURL=index.js.map

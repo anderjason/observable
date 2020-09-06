@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ObservableDict = exports.dictGivenObject = void 0;
-const SimpleEvent_1 = require("../SimpleEvent");
+const TypedEvent_1 = require("../TypedEvent");
 function dictGivenObject(obj) {
     if (obj == null) {
         throw new Error("Object is required");
@@ -15,8 +15,8 @@ function dictGivenObject(obj) {
 exports.dictGivenObject = dictGivenObject;
 class ObservableDict {
     constructor(dict) {
-        this.didChange = SimpleEvent_1.SimpleEvent.ofEmpty();
-        this.didChangeSteps = SimpleEvent_1.SimpleEvent.ofEmpty();
+        this.didChange = TypedEvent_1.TypedEvent.ofEmpty();
+        this.didChangeSteps = TypedEvent_1.TypedEvent.ofEmpty();
         this._isObservableDict = true;
         this._map = new Map();
         Object.keys(dict).forEach((key) => {

@@ -15,8 +15,11 @@ class ReadOnlyObservableSet {
     hasValue(value) {
         return this._observableSet.hasValue(value);
     }
-    toValues() {
-        return this._observableSet.toValues();
+    toSet() {
+        return this._observableSet.toSet();
+    }
+    toArray() {
+        return this._observableSet.toArray();
     }
     get didChange() {
         return this._observableSet.didChange;

@@ -1,14 +1,14 @@
-import { SimpleEvent } from "../SimpleEvent";
+import { TypedEvent } from "../TypedEvent";
 
 export type ObservableFilter<T> = (newValue: T, oldValue: T) => boolean;
 
 export interface ObservableBase<T> {
-  readonly didChange: SimpleEvent<T>;
+  readonly didChange: TypedEvent<T>;
   readonly value: T;
 }
 
 export class Observable<T = number> implements ObservableBase<T> {
-  readonly didChange = SimpleEvent.ofEmpty<T>();
+  readonly didChange = TypedEvent.ofEmpty<T>();
   readonly discardFilter: ObservableFilter<T> | undefined;
 
   static isStrictEqual<T>(newValue: T, oldValue: T): boolean {
@@ -70,10 +70,5 @@ export class Observable<T = number> implements ObservableBase<T> {
 
     this._value = newValue;
     this.didChange.emit(newValue);
-  }
-
-  mutate(fn: (value: T) => void): void {
-    fn(this.value);
-    this.didChange.emit(this.value);
   }
 }

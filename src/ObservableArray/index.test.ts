@@ -1,5 +1,4 @@
 import { Test } from "@anderjason/tests";
-import { ObjectUtil } from "@anderjason/util";
 import { ObservableArray, ObservableArrayChange } from ".";
 
 Test.define("ObservableArray can be created empty", () => {
@@ -21,7 +20,7 @@ function assertArrayChange<T>(
   return new Promise((resolve, reject) => {
     let actualChanges: ObservableArrayChange<T>[];
 
-    const handle = array.didChangeSteps.subscribe((c) => {
+    const receipt = array.didChangeSteps.subscribe((c) => {
       actualChanges = c;
     });
 
@@ -31,11 +30,12 @@ function assertArrayChange<T>(
       reject(err);
     }
 
-    handle.release();
+    receipt.cancel();
 
     try {
-      Test.assert(
-        ObjectUtil.objectIsDeepEqual(actualChanges, expectedChanges),
+      Test.assertIsDeepEqual(
+        actualChanges,
+        expectedChanges,
         JSON.stringify(actualChanges, null, 2)
       );
       Test.assertIsDeepEqual(
@@ -319,6 +319,117 @@ Test.define(
         },
       ],
       ["a", "b", "c", "d"]
+    );
+  }
+);
+
+Test.define(
+  "ObservableArray can sync its values to match an array",
+  async () => {
+    const input = ObservableArray.givenValues(["a", "b", "c", "d", "e"]);
+
+    await assertArrayChange(
+      input,
+      (a) => a.sync(["f", "d", "c"]),
+      [
+        {
+          type: "remove",
+          value: "a",
+          oldIndex: 0,
+        },
+        {
+          type: "remove",
+          value: "b",
+          oldIndex: 1,
+        },
+        {
+          type: "remove",
+          value: "e",
+          oldIndex: 4,
+        },
+        {
+          type: "move",
+          value: "d",
+          oldIndex: 3,
+          newIndex: 1,
+        },
+        {
+          type: "add",
+          value: "f",
+          newIndex: 0,
+        },
+      ],
+      ["f", "d", "c"]
+    );
+  }
+);
+
+Test.define(
+  "ObservableArray can sync its values to match a longer array",
+  async () => {
+    const input = ObservableArray.givenValues(["a", "b", "c"]);
+
+    await assertArrayChange(
+      input,
+      (a) => a.sync(["a", "b", "c", "d", "e"]),
+      [
+        {
+          type: "add",
+          value: "d",
+          newIndex: 3,
+        },
+        {
+          type: "add",
+          value: "e",
+          newIndex: 4,
+        },
+      ],
+      ["a", "b", "c", "d", "e"]
+    );
+  }
+);
+
+Test.define(
+  "ObservableArray can sync its values to match a different array",
+  async () => {
+    const input = ObservableArray.givenValues(["a", "b", "c"]);
+
+    await assertArrayChange(
+      input,
+      (a) => a.sync(["x", "y", "z"]),
+      [
+        {
+          type: "remove",
+          oldIndex: 0,
+          value: "a",
+        },
+        {
+          type: "remove",
+          oldIndex: 1,
+          value: "b",
+        },
+        {
+          type: "remove",
+          oldIndex: 2,
+          value: "c",
+        },
+        {
+          type: "add",
+          newIndex: 0,
+          value: "x",
+        },
+        {
+          type: "add",
+          newIndex: 1,
+          value: "y",
+        },
+        {
+          type: "add",
+          newIndex: 2,
+          value: "z",
+        },
+      ],
+      ["x", "y", "z"]
     );
   }
 );

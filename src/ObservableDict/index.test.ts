@@ -24,7 +24,7 @@ function assertDictChange<T>(
   return new Promise((resolve, reject) => {
     let actualChanges: ObservableDictChange<T>[];
 
-    const handle = dict.didChangeSteps.subscribe((c) => {
+    const receipt = dict.didChangeSteps.subscribe((c) => {
       actualChanges = c;
     });
 
@@ -34,7 +34,7 @@ function assertDictChange<T>(
       reject(err);
     }
 
-    handle.release();
+    receipt.cancel();
 
     try {
       Test.assert(

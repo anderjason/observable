@@ -32,12 +32,12 @@ Test.define(
     const instance = Observable.givenValue(5);
 
     let didFire = false as boolean;
-    const handle = instance.didChange.subscribe(() => {
+    const receipt = instance.didChange.subscribe(() => {
       didFire = true;
     });
 
     instance.setValue(10);
-    handle.release();
+    receipt.cancel();
 
     Test.assert(didFire === true);
   }

@@ -1,4 +1,5 @@
-import { SimpleEvent } from "../SimpleEvent";
+import { TypedEvent } from "../TypedEvent";
+import { SetUtil } from "@anderjason/util";
 
 export interface ObservableSetChange<T> {
   type: "add" | "remove";
@@ -6,16 +7,17 @@ export interface ObservableSetChange<T> {
 }
 
 export interface ObservableSetBase<T> {
-  readonly didChange: SimpleEvent<T[]>;
-  readonly didChangeSteps: SimpleEvent<ObservableSetChange<T>[]>;
+  readonly didChange: TypedEvent<T[]>;
+  readonly didChangeSteps: TypedEvent<ObservableSetChange<T>[]>;
 
   hasValue(value: T): boolean;
-  toValues(): T[];
+  toSet(): Set<T>;
+  toArray(): T[];
 }
 
 export class ObservableSet<T> implements ObservableSetBase<T> {
-  readonly didChange = SimpleEvent.ofEmpty<T[]>();
-  readonly didChangeSteps = SimpleEvent.ofEmpty<ObservableSetChange<T>[]>();
+  readonly didChange = TypedEvent.ofEmpty<T[]>();
+  readonly didChangeSteps = TypedEvent.ofEmpty<ObservableSetChange<T>[]>();
 
   static ofEmpty<T>(): ObservableSet<T> {
     return new ObservableSet(new Set());
@@ -83,8 +85,62 @@ export class ObservableSet<T> implements ObservableSetBase<T> {
     return true;
   }
 
+  removeAllWhere(filter: (value: T) => boolean): void {
+    if (filter == null) {
+      throw new Error("Filter is required");
+    }
+
+    const updates: ObservableSetChange<T>[] = [];
+
+    Array.from(this._set).forEach((v) => {
+      const isMatch = filter(v);
+      if (isMatch) {
+        this._set.delete(v);
+        updates.push({
+          type: "remove",
+          value: v,
+        });
+      }
+    });
+
+    this.didChange.emit(Array.from(this._set));
+    this.didChangeSteps.emit(updates);
+  }
+
+  sync(values: T[] | Set<T>): void {
+    if (values == null) {
+      this.clear();
+      return;
+    }
+
+    const newSet = new Set(values);
+
+    const updates: ObservableSetChange<T>[] = [];
+
+    const diff = SetUtil.differenceGivenSets(this._set, newSet);
+
+    diff.addedItems.forEach((value) => {
+      updates.push({
+        type: "add",
+        value,
+      });
+    });
+
+    diff.removedItems.forEach((value) => {
+      updates.push({
+        type: "remove",
+        value,
+      });
+    });
+
+    this._set = newSet;
+
+    this.didChange.emit(Array.from(this._set));
+    this.didChangeSteps.emit(updates);
+  }
+
   clear(): void {
-    const values = this.toValues();
+    const values = this.toSet();
 
     this._set.clear();
 
@@ -105,7 +161,11 @@ export class ObservableSet<T> implements ObservableSetBase<T> {
     return this._set.has(value);
   }
 
-  toValues(): T[] {
+  toSet(): Set<T> {
+    return new Set(this._set);
+  }
+
+  toArray(): T[] {
     return Array.from(this._set);
   }
 }

@@ -1,4 +1,4 @@
-import { SimpleEvent } from "../SimpleEvent";
+import { TypedEvent } from "../TypedEvent";
 import {
   ObservableDict,
   ObservableDictChange,
@@ -25,11 +25,11 @@ export class ReadOnlyObservableDict<T = unknown>
     return this._observableDict.count;
   }
 
-  get didChange(): SimpleEvent<Dict<T>> {
+  get didChange(): TypedEvent<Dict<T>> {
     return this._observableDict.didChange;
   }
 
-  get didChangeSteps(): SimpleEvent<ObservableDictChange<T>[]> {
+  get didChangeSteps(): TypedEvent<ObservableDictChange<T>[]> {
     return this._observableDict.didChangeSteps;
   }
 

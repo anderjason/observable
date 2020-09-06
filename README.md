@@ -6,10 +6,6 @@
 
 ## API Reference
 
-### Handle
-
-`TODO`
-
 ### Observable
 
 `TODO`
@@ -42,6 +38,10 @@
 
 `TODO`
 
-### SimpleEvent
+### Receipt
+
+`TODO`
+
+### TypedEvent
 
 `TODO`

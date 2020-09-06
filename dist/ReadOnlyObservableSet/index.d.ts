@@ -1,4 +1,4 @@
-import { SimpleEvent } from "../SimpleEvent";
+import { TypedEvent } from "../TypedEvent";
 import { ObservableSet, ObservableSetChange, ObservableSetBase } from "../ObservableSet";
 export declare class ReadOnlyObservableSet<T> implements ObservableSetBase<T> {
     static givenObservableSet<T>(observableSet: ObservableSet<T>): ReadOnlyObservableSet<T>;
@@ -7,7 +7,8 @@ export declare class ReadOnlyObservableSet<T> implements ObservableSetBase<T> {
     private constructor();
     get count(): number;
     hasValue(value: T): boolean;
-    toValues(): T[];
-    get didChange(): SimpleEvent<T[]>;
-    get didChangeSteps(): SimpleEvent<ObservableSetChange<T>[]>;
+    toSet(): Set<T>;
+    toArray(): T[];
+    get didChange(): TypedEvent<T[]>;
+    get didChangeSteps(): TypedEvent<ObservableSetChange<T>[]>;
 }

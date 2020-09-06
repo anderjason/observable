@@ -1,8 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SimpleEvent = exports.ReadOnlyObservableSet = exports.ReadOnlyObservableDict = exports.ReadOnlyObservableArray = exports.ReadOnlyObservable = exports.ObservableSet = exports.ObservableDict = exports.ObservableArray = exports.Observable = exports.Handle = void 0;
-const Handle_1 = require("./Handle");
-Object.defineProperty(exports, "Handle", { enumerable: true, get: function () { return Handle_1.Handle; } });
+exports.TypedEvent = exports.Receipt = exports.ReadOnlyObservableSet = exports.ReadOnlyObservableDict = exports.ReadOnlyObservableArray = exports.ReadOnlyObservable = exports.ObservableSet = exports.ObservableDict = exports.ObservableArray = exports.Observable = void 0;
 const Observable_1 = require("./Observable");
 Object.defineProperty(exports, "Observable", { enumerable: true, get: function () { return Observable_1.Observable; } });
 const ObservableArray_1 = require("./ObservableArray");
@@ -19,6 +17,8 @@ const ReadOnlyObservableDict_1 = require("./ReadOnlyObservableDict");
 Object.defineProperty(exports, "ReadOnlyObservableDict", { enumerable: true, get: function () { return ReadOnlyObservableDict_1.ReadOnlyObservableDict; } });
 const ReadOnlyObservableSet_1 = require("./ReadOnlyObservableSet");
 Object.defineProperty(exports, "ReadOnlyObservableSet", { enumerable: true, get: function () { return ReadOnlyObservableSet_1.ReadOnlyObservableSet; } });
-const SimpleEvent_1 = require("./SimpleEvent");
-Object.defineProperty(exports, "SimpleEvent", { enumerable: true, get: function () { return SimpleEvent_1.SimpleEvent; } });
+const Receipt_1 = require("./Receipt");
+Object.defineProperty(exports, "Receipt", { enumerable: true, get: function () { return Receipt_1.Receipt; } });
+const TypedEvent_1 = require("./TypedEvent");
+Object.defineProperty(exports, "TypedEvent", { enumerable: true, get: function () { return TypedEvent_1.TypedEvent; } });
 //# sourceMappingURL=index.js.map

@@ -1,4 +1,4 @@
-import { SimpleEvent } from "../SimpleEvent";
+import { TypedEvent } from "../TypedEvent";
 import { Observable, ObservableBase } from "../Observable";
 
 export class ReadOnlyObservable<T> implements ObservableBase<T> {
@@ -17,7 +17,7 @@ export class ReadOnlyObservable<T> implements ObservableBase<T> {
     return this._observable.value;
   }
 
-  get didChange(): SimpleEvent<T> {
+  get didChange(): TypedEvent<T> {
     return this._observable.didChange;
   }
 }

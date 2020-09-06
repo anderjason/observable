@@ -1,4 +1,4 @@
-import { SimpleEvent } from "../SimpleEvent";
+import { TypedEvent } from "../TypedEvent";
 import {
   ObservableSet,
   ObservableSetChange,
@@ -27,15 +27,19 @@ export class ReadOnlyObservableSet<T> implements ObservableSetBase<T> {
     return this._observableSet.hasValue(value);
   }
 
-  toValues(): T[] {
-    return this._observableSet.toValues();
+  toSet(): Set<T> {
+    return this._observableSet.toSet();
   }
 
-  get didChange(): SimpleEvent<T[]> {
+  toArray(): T[] {
+    return this._observableSet.toArray();
+  }
+
+  get didChange(): TypedEvent<T[]> {
     return this._observableSet.didChange;
   }
 
-  get didChangeSteps(): SimpleEvent<ObservableSetChange<T>[]> {
+  get didChangeSteps(): TypedEvent<ObservableSetChange<T>[]> {
     return this._observableSet.didChangeSteps;
   }
 }

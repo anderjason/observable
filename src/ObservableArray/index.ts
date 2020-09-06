@@ -1,5 +1,5 @@
 import { ArrayUtil } from "@anderjason/util";
-import { SimpleEvent } from "../SimpleEvent";
+import { TypedEvent } from "../TypedEvent";
 
 export interface ObservableArrayChange<T> {
   type: "add" | "remove" | "move";
@@ -9,8 +9,8 @@ export interface ObservableArrayChange<T> {
 }
 
 export interface ObservableArrayBase<T> {
-  readonly didChange: SimpleEvent<T[]>;
-  readonly didChangeSteps: SimpleEvent<ObservableArrayChange<T>[]>;
+  readonly didChange: TypedEvent<T[]>;
+  readonly didChangeSteps: TypedEvent<ObservableArrayChange<T>[]>;
 
   hasValue(value: T, fromIndex?: number): boolean;
   toOptionalValueGivenIndex(index: number): T | undefined;
@@ -19,8 +19,8 @@ export interface ObservableArrayBase<T> {
 }
 
 export class ObservableArray<T> implements ObservableArrayBase<T> {
-  readonly didChange = SimpleEvent.ofEmpty<T[]>();
-  readonly didChangeSteps = SimpleEvent.ofEmpty<ObservableArrayChange<T>[]>();
+  readonly didChange = TypedEvent.ofEmpty<T[]>();
+  readonly didChangeSteps = TypedEvent.ofEmpty<ObservableArrayChange<T>[]>();
 
   static ofEmpty<T>(): ObservableArray<T> {
     return new ObservableArray([]);
@@ -172,6 +172,69 @@ export class ObservableArray<T> implements ObservableArrayBase<T> {
     this.didChange.emit([...this._array]);
     this.didChangeSteps.emit(updates);
   };
+
+  sync(input: T[]): void {
+    if (input == null || input.length === 0) {
+      this.clear();
+      return;
+    }
+
+    let adds: ObservableArrayChange<T>[] = [];
+    let removes: ObservableArrayChange<T>[] = [];
+    let moves: ObservableArrayChange<T>[] = [];
+
+    input.forEach((newValue, idx) => {
+      if (this._array[idx] !== newValue) {
+        if (this._array[idx] != null) {
+          removes.push({
+            type: "remove",
+            oldIndex: idx,
+            value: this._array[idx],
+          });
+        }
+
+        adds.push({
+          type: "add",
+          newIndex: idx,
+          value: newValue,
+        });
+      }
+    });
+
+    for (let i = input.length; i < this._array.length; i++) {
+      removes.push({
+        type: "remove",
+        oldIndex: i,
+        value: this._array[i],
+      });
+    }
+
+    Array.from(removes).forEach((remove) => {
+      if (remove.value == null) {
+        return;
+      }
+
+      const matchingAdd = adds.find((add) => add.value === remove.value);
+      if (matchingAdd != null) {
+        removes = ArrayUtil.arrayWithoutValue(removes, remove);
+        adds = ArrayUtil.arrayWithoutValue(adds, matchingAdd);
+
+        moves.push({
+          type: "move",
+          oldIndex: remove.oldIndex,
+          newIndex: matchingAdd.newIndex,
+          value: remove.value,
+        });
+      }
+    });
+
+    const updates = [...removes, ...moves, ...adds];
+
+    this._array = [...input];
+
+    this.didChange.emit(this.toValues());
+    this.didChangeSteps.emit(updates);
+  }
 
   private _internalMove = (oldIndex: number, newIndex: number): void => {
     while (oldIndex < 0) {

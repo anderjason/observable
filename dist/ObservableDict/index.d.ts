@@ -1,4 +1,4 @@
-import { SimpleEvent } from "../SimpleEvent";
+import { TypedEvent } from "../TypedEvent";
 export interface ObservableDictChange<T = unknown> {
     type: "add" | "remove" | "update";
     key: string;
@@ -10,16 +10,16 @@ export interface Dict<T = unknown> {
 }
 export declare function dictGivenObject(obj: any): Dict<unknown>;
 export interface ObservableDictBase<T = unknown> {
-    readonly didChange: SimpleEvent<Dict<T>>;
-    readonly didChangeSteps: SimpleEvent<ObservableDictChange<T>[]>;
+    readonly didChange: TypedEvent<Dict<T>>;
+    readonly didChangeSteps: TypedEvent<ObservableDictChange<T>[]>;
     hasKey(key: string): boolean;
     toOptionalValueGivenKey(key: string): T;
     toKeys(): Set<string>;
     toValues(): Dict<T>;
 }
 export declare class ObservableDict<T = unknown> implements ObservableDictBase<T> {
-    readonly didChange: SimpleEvent<Dict<T>>;
-    readonly didChangeSteps: SimpleEvent<ObservableDictChange<T>[]>;
+    readonly didChange: TypedEvent<Dict<T>>;
+    readonly didChangeSteps: TypedEvent<ObservableDictChange<T>[]>;
     static ofEmpty<T>(): ObservableDict<T>;
     static givenValues<T>(values: Dict<T>): ObservableDict<T>;
     static isObservableDict(input: any): input is ObservableDictBase<unknown>;

@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Observable = void 0;
-const SimpleEvent_1 = require("../SimpleEvent");
+const TypedEvent_1 = require("../TypedEvent");
 class Observable {
     constructor(value, filter) {
-        this.didChange = SimpleEvent_1.SimpleEvent.ofEmpty();
+        this.didChange = TypedEvent_1.TypedEvent.ofEmpty();
         this._isObservable = true;
         this.discardFilter = filter;
         if (value != null) {
@@ -47,10 +47,6 @@ class Observable {
         }
         this._value = newValue;
         this.didChange.emit(newValue);
-    }
-    mutate(fn) {
-        fn(this.value);
-        this.didChange.emit(this.value);
     }
 }
 exports.Observable = Observable;
