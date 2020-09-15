@@ -8,7 +8,7 @@ export interface ObservableBase<T> {
 }
 
 export class Observable<T = number> implements ObservableBase<T> {
-  readonly didChange = TypedEvent.ofEmpty<T>();
+  readonly didChange = new TypedEvent<T>();
   readonly discardFilter: ObservableFilter<T> | undefined;
 
   static isStrictEqual<T>(newValue: T, oldValue: T): boolean {

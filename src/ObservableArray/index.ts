@@ -19,8 +19,8 @@ export interface ObservableArrayBase<T> {
 }
 
 export class ObservableArray<T> implements ObservableArrayBase<T> {
-  readonly didChange = TypedEvent.ofEmpty<T[]>();
-  readonly didChangeSteps = TypedEvent.ofEmpty<ObservableArrayChange<T>[]>();
+  readonly didChange = new TypedEvent<T[]>();
+  readonly didChangeSteps = new TypedEvent<ObservableArrayChange<T>[]>();
 
   static ofEmpty<T>(): ObservableArray<T> {
     return new ObservableArray([]);

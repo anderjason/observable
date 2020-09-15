@@ -4,7 +4,7 @@ exports.Observable = void 0;
 const TypedEvent_1 = require("../TypedEvent");
 class Observable {
     constructor(value, filter) {
-        this.didChange = TypedEvent_1.TypedEvent.ofEmpty();
+        this.didChange = new TypedEvent_1.TypedEvent();
         this._isObservable = true;
         this.discardFilter = filter;
         if (value != null) {

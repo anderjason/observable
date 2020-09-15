@@ -8,12 +8,6 @@ class TypedEvent {
         this._subscriptions = undefined;
         this._lastValue = lastValue;
     }
-    static ofEmpty() {
-        return new TypedEvent();
-    }
-    static givenLastValue(lastValue) {
-        return new TypedEvent(lastValue);
-    }
     subscribe(subscription, includeLast = false) {
         if (this._subscriptions == null) {
             this._subscriptions = [];
@@ -22,7 +16,7 @@ class TypedEvent {
         if (includeLast) {
             subscription(this._lastValue);
         }
-        return Receipt_1.Receipt.givenCancelFunction(() => this.unsubscribe(subscription));
+        return new Receipt_1.Receipt(() => this.unsubscribe(subscription));
     }
     async emit(newValue) {
         const previousValue = this._lastValue;

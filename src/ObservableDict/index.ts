@@ -36,8 +36,8 @@ export interface ObservableDictBase<T = unknown> {
 }
 
 export class ObservableDict<T = unknown> implements ObservableDictBase<T> {
-  readonly didChange = TypedEvent.ofEmpty<Dict<T>>();
-  readonly didChangeSteps = TypedEvent.ofEmpty<ObservableDictChange<T>[]>();
+  readonly didChange = new TypedEvent<Dict<T>>();
+  readonly didChangeSteps = new TypedEvent<ObservableDictChange<T>[]>();
 
   static ofEmpty<T>(): ObservableDict<T> {
     return new ObservableDict({});

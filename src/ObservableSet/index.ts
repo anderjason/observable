@@ -16,8 +16,8 @@ export interface ObservableSetBase<T> {
 }
 
 export class ObservableSet<T> implements ObservableSetBase<T> {
-  readonly didChange = TypedEvent.ofEmpty<T[]>();
-  readonly didChangeSteps = TypedEvent.ofEmpty<ObservableSetChange<T>[]>();
+  readonly didChange = new TypedEvent<T[]>();
+  readonly didChangeSteps = new TypedEvent<ObservableSetChange<T>[]>();
 
   static ofEmpty<T>(): ObservableSet<T> {
     return new ObservableSet(new Set());

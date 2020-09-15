@@ -5,8 +5,8 @@ const util_1 = require("@anderjason/util");
 const TypedEvent_1 = require("../TypedEvent");
 class ObservableArray {
     constructor(values) {
-        this.didChange = TypedEvent_1.TypedEvent.ofEmpty();
-        this.didChangeSteps = TypedEvent_1.TypedEvent.ofEmpty();
+        this.didChange = new TypedEvent_1.TypedEvent();
+        this.didChangeSteps = new TypedEvent_1.TypedEvent();
         this._isObservableArray = true;
         this.replaceValueAtIndex = (index, value) => {
             if (index < 0) {

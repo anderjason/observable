@@ -2,7 +2,7 @@ import { Test } from "@anderjason/tests";
 import { TypedEvent } from ".";
 
 Test.define("TypedEvent can be subscribed to", () => {
-  const event = TypedEvent.ofEmpty();
+  const event = new TypedEvent();
 
   const receipt = event.subscribe(() => {});
 
@@ -11,7 +11,7 @@ Test.define("TypedEvent can be subscribed to", () => {
 });
 
 Test.define("TypedEvent can take an initial value", () => {
-  const event = TypedEvent.givenLastValue(5);
+  const event = new TypedEvent(5);
 
   let result: number;
 
@@ -26,7 +26,7 @@ Test.define("TypedEvent can take an initial value", () => {
 Test.define(
   "TypedEvent fires the event with a value when emit is called",
   () => {
-    const event = TypedEvent.ofEmpty<number>();
+    const event = new TypedEvent<number>();
 
     let result: number;
     let eventCount: number = 0;
@@ -53,9 +53,9 @@ Test.define(
 );
 
 Test.define(
-  "TypedEvent stops firing the event when the handle is released",
+  "TypedEvent stops firing the event when the receipt is cancelled",
   () => {
-    const event = TypedEvent.ofEmpty<number>();
+    const event = new TypedEvent<number>();
 
     let eventCount: number = 0;
 
@@ -82,7 +82,7 @@ Test.define(
 Test.define(
   "TypedEvent fires the event for new subscriptions with the previous value if requested",
   () => {
-    const event = TypedEvent.ofEmpty<number>();
+    const event = new TypedEvent<number>();
 
     let result: number;
 

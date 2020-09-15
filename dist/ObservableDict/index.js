@@ -15,8 +15,8 @@ function dictGivenObject(obj) {
 exports.dictGivenObject = dictGivenObject;
 class ObservableDict {
     constructor(dict) {
-        this.didChange = TypedEvent_1.TypedEvent.ofEmpty();
-        this.didChangeSteps = TypedEvent_1.TypedEvent.ofEmpty();
+        this.didChange = new TypedEvent_1.TypedEvent();
+        this.didChangeSteps = new TypedEvent_1.TypedEvent();
         this._isObservableDict = true;
         this._map = new Map();
         Object.keys(dict).forEach((key) => {

@@ -2,13 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Receipt = void 0;
 class Receipt {
-    constructor(callback) {
-        this._cancelFunction = callback;
-    }
-    static givenCancelFunction(cancelFunction) {
-        const handle = new Receipt(cancelFunction);
-        this._all.add(handle);
-        return handle;
+    constructor(cancelFunction) {
+        Receipt._all.add(this);
+        this._cancelFunction = cancelFunction;
     }
     get isCancelled() {
         return this._cancelFunction == null;

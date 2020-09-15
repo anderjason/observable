@@ -1,8 +1,7 @@
 export declare class Receipt {
     private static readonly _all;
-    static givenCancelFunction(cancelFunction: () => void): Receipt;
     private _cancelFunction;
-    private constructor();
+    constructor(cancelFunction: () => void);
     get isCancelled(): boolean;
     cancel(): void;
 }

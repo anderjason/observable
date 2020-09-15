@@ -5,8 +5,8 @@ const TypedEvent_1 = require("../TypedEvent");
 const util_1 = require("@anderjason/util");
 class ObservableSet {
     constructor(values) {
-        this.didChange = TypedEvent_1.TypedEvent.ofEmpty();
-        this.didChangeSteps = TypedEvent_1.TypedEvent.ofEmpty();
+        this.didChange = new TypedEvent_1.TypedEvent();
+        this.didChangeSteps = new TypedEvent_1.TypedEvent();
         this._isObservableSet = true;
         this._set = values;
     }

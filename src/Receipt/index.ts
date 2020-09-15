@@ -1,18 +1,12 @@
 export class Receipt {
   private static readonly _all = new Set<Receipt>();
 
-  static givenCancelFunction(cancelFunction: () => void): Receipt {
-    const handle = new Receipt(cancelFunction);
-
-    this._all.add(handle);
-
-    return handle;
-  }
-
   private _cancelFunction: (() => void) | undefined;
 
-  private constructor(callback: () => void) {
-    this._cancelFunction = callback;
+  constructor(cancelFunction: () => void) {
+    Receipt._all.add(this);
+
+    this._cancelFunction = cancelFunction;
   }
 
   get isCancelled(): boolean {

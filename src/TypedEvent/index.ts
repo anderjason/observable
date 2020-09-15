@@ -10,15 +10,7 @@ export class TypedEvent<T = void> {
   private _subscriptions: TypedEventSubscription<T>[] | undefined = undefined;
   private _lastValue?: T;
 
-  static ofEmpty<T = void>(): TypedEvent<T> {
-    return new TypedEvent<T>();
-  }
-
-  static givenLastValue<T>(lastValue: T): TypedEvent<T> {
-    return new TypedEvent(lastValue);
-  }
-
-  private constructor(lastValue?: T) {
+  constructor(lastValue?: T) {
     this._lastValue = lastValue;
   }
 
@@ -36,7 +28,7 @@ export class TypedEvent<T = void> {
       subscription(this._lastValue);
     }
 
-    return Receipt.givenCancelFunction(() => this.unsubscribe(subscription));
+    return new Receipt(() => this.unsubscribe(subscription));
   }
 
   async emit(newValue: T): Promise<void> {
