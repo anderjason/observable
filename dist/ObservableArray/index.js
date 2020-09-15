@@ -13,7 +13,7 @@ class ObservableArray {
                 throw new Error("Index cannot be negative");
             }
             const oldValue = this._array[index];
-            if (oldValue === value) {
+            if (oldValue === value && oldValue != null) {
                 return;
             }
             const updates = [];

@@ -433,3 +433,45 @@ Test.define(
     );
   }
 );
+
+Test.define("ObservableArray can replace a value with null", () => {
+  const oa = ObservableArray.ofEmpty<string>();
+
+  oa.replaceValueAtIndex(0, "a");
+  oa.replaceValueAtIndex(1, null);
+  oa.replaceValueAtIndex(2, "c");
+  oa.replaceValueAtIndex(3, "d");
+
+  Test.assert(oa.toOptionalValueGivenIndex(0) === "a");
+  Test.assert(oa.toOptionalValueGivenIndex(1) == null);
+  Test.assert(oa.toOptionalValueGivenIndex(2) === "c");
+  Test.assert(oa.toOptionalValueGivenIndex(3) === "d");
+  Test.assert(oa.count === 4);
+});
+
+Test.define("ObservableArray can replace a value with undefined", () => {
+  const oa = ObservableArray.ofEmpty<string>();
+
+  oa.replaceValueAtIndex(0, "a");
+  oa.replaceValueAtIndex(1, undefined);
+  oa.replaceValueAtIndex(2, "c");
+  oa.replaceValueAtIndex(3, "d");
+
+  Test.assert(oa.toOptionalValueGivenIndex(0) === "a");
+  Test.assert(oa.toOptionalValueGivenIndex(1) == null);
+  Test.assert(oa.toOptionalValueGivenIndex(2) === "c");
+  Test.assert(oa.toOptionalValueGivenIndex(3) === "d");
+  Test.assert(oa.count === 4);
+});
+
+Test.define(
+  "ObservableArray toValues returns an empty array when created with ofEmpty",
+  () => {
+    const input = ObservableArray.ofEmpty<string>();
+    const result = input.toValues();
+
+    Test.assert(result != null);
+    Test.assert(Array.isArray(result));
+    Test.assert(result.length === 0);
+  }
+);
