@@ -40,9 +40,9 @@ export class Observable<T = number> implements ObservableBase<T> {
   }
 
   static givenValueOrObservable<T>(
-    value: T | Observable<T>,
+    value: T | ObservableBase<T>,
     discardFilter?: ObservableFilter<T>
-  ): Observable<T> {
+  ): ObservableBase<T> {
     if (Observable.isObservable(value)) {
       return value;
     } else {

@@ -11,7 +11,7 @@ export declare class Observable<T = number> implements ObservableBase<T> {
     static isObservable(input: any): input is ObservableBase<unknown>;
     static givenValue<T>(value: T, discardFilter?: ObservableFilter<T>): Observable<T>;
     static ofEmpty<T>(discardFilter?: ObservableFilter<T>): Observable<T>;
-    static givenValueOrObservable<T>(value: T | Observable<T>, discardFilter?: ObservableFilter<T>): Observable<T>;
+    static givenValueOrObservable<T>(value: T | ObservableBase<T>, discardFilter?: ObservableFilter<T>): ObservableBase<T>;
     private _value;
     private _isObservable;
     private constructor();
