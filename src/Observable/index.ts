@@ -1,3 +1,4 @@
+import { ObservableArray } from "..";
 import { TypedEvent } from "../TypedEvent";
 
 export type ObservableFilter<T> = (newValue: T, oldValue: T) => boolean;
@@ -36,6 +37,17 @@ export class Observable<T = number> implements ObservableBase<T> {
 
   static ofEmpty<T>(discardFilter?: ObservableFilter<T>): Observable<T> {
     return new Observable<T>(undefined, discardFilter);
+  }
+
+  static givenValueOrObservable<T>(
+    value: T | Observable<T>,
+    discardFilter?: ObservableFilter<T>
+  ): Observable<T> {
+    if (Observable.isObservable(value)) {
+      return value;
+    } else {
+      return Observable.givenValue(value, discardFilter);
+    }
   }
 
   private _value: T;

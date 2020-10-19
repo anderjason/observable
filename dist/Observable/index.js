@@ -29,6 +29,14 @@ class Observable {
     static ofEmpty(discardFilter) {
         return new Observable(undefined, discardFilter);
     }
+    static givenValueOrObservable(value, discardFilter) {
+        if (Observable.isObservable(value)) {
+            return value;
+        }
+        else {
+            return Observable.givenValue(value, discardFilter);
+        }
+    }
     get value() {
         return this._value;
     }
