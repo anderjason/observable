@@ -46,7 +46,8 @@ export class ObservableArray<T> implements ObservableArrayBase<T> {
   private _isObservableArray = true;
 
   private constructor(values: T[]) {
-    this._array = values;
+    this._array = [];
+    this.sync(values);
   }
 
   get count(): number {

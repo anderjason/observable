@@ -475,3 +475,16 @@ Test.define(
     Test.assert(result.length === 0);
   }
 );
+
+Test.define("ObservableArray emits didChange with the current values", () => {
+  const input = ObservableArray.givenValues<string>(["a", "b", "c"]);
+
+  let receivedValues: string[];
+  const receipt = input.didChange.subscribe((values) => {
+    receivedValues = values;
+  }, true);
+
+  Test.assertIsDeepEqual(receivedValues, input.toValues());
+
+  receipt.cancel();
+});

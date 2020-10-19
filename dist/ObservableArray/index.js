@@ -48,7 +48,8 @@ class ObservableArray {
             }
             this._array.splice(newIndex, 0, this._array.splice(oldIndex, 1)[0]);
         };
-        this._array = values;
+        this._array = [];
+        this.sync(values);
     }
     static ofEmpty() {
         return new ObservableArray([]);
