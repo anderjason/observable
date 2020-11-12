@@ -1,6 +1,6 @@
 {
   "name": "@anderjason/observable",
-  "version": "3.1.1",
+  "version": "3.2.0",
   "description": "",
   "main": "./dist/index.js",
   "repository": {
@@ -20,10 +20,11 @@
   ],
   "dependencies": {
     "@anderjason/tests": "^1.0.1",
-    "@anderjason/util": "^2.0.3",
-    "typescript": "^4.0.3"
+    "@anderjason/util": "^2.0.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "typescript": "^4.0.5"
+  },
   "bugs": {
     "url": "https://github.com/anderjason/observable/issues"
   },

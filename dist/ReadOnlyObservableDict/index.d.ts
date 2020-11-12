@@ -1,7 +1,7 @@
 import { TypedEvent } from "../TypedEvent";
-import { ObservableDict, ObservableDictChange, ObservableDictBase, Dict } from "../ObservableDict";
+import { ObservableDictChange, ObservableDictBase, Dict } from "../ObservableDict";
 export declare class ReadOnlyObservableDict<T = unknown> implements ObservableDictBase<T> {
-    static givenObservableDict<T>(observableDict: ObservableDict<T>): ReadOnlyObservableDict<T>;
+    static givenObservableDict<T>(observableDict: ObservableDictBase<T>): ReadOnlyObservableDict<T>;
     private _observableDict;
     private _isObservableDict;
     private constructor();

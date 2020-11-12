@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Observable = void 0;
 const TypedEvent_1 = require("../TypedEvent");
+const asyncGivenObservable_1 = require("./_internal/asyncGivenObservable");
 class Observable {
     constructor(value, filter) {
         this.didChange = new TypedEvent_1.TypedEvent();
@@ -55,6 +56,12 @@ class Observable {
         }
         this._value = newValue;
         this.didChange.emit(newValue);
+    }
+    toPromise(filter) {
+        return asyncGivenObservable_1.asyncGivenObservable({
+            observable: this,
+            filter,
+        });
     }
 }
 exports.Observable = Observable;

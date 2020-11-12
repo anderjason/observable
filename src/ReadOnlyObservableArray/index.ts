@@ -1,21 +1,17 @@
+import { ObservableArrayBase, ObservableArrayChange } from "../ObservableArray";
 import { TypedEvent } from "../TypedEvent";
-import {
-  ObservableArray,
-  ObservableArrayChange,
-  ObservableArrayBase,
-} from "../ObservableArray";
 
 export class ReadOnlyObservableArray<T> implements ObservableArrayBase<T> {
   static givenObservableArray<T>(
-    observableArray: ObservableArray<T>
+    observableArray: ObservableArrayBase<T>
   ): ReadOnlyObservableArray<T> {
     return new ReadOnlyObservableArray<T>(observableArray);
   }
 
-  private _observableArray: ObservableArray<T>;
+  private _observableArray: ObservableArrayBase<T>;
   private _isObservableArray = true;
 
-  private constructor(observableArray: ObservableArray<T>) {
+  private constructor(observableArray: ObservableArrayBase<T>) {
     this._observableArray = observableArray;
   }
 

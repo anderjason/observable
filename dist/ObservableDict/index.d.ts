@@ -12,6 +12,7 @@ export declare function dictGivenObject(obj: any): Dict<unknown>;
 export interface ObservableDictBase<T = unknown> {
     readonly didChange: TypedEvent<Dict<T>>;
     readonly didChangeSteps: TypedEvent<ObservableDictChange<T>[]>;
+    readonly count: number;
     hasKey(key: string): boolean;
     toOptionalValueGivenKey(key: string): T;
     toKeys(): Set<string>;

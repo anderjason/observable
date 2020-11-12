@@ -1,7 +1,7 @@
 import { TypedEvent } from "../TypedEvent";
-import { ObservableSet, ObservableSetChange, ObservableSetBase } from "../ObservableSet";
+import { ObservableSetChange, ObservableSetBase } from "../ObservableSet";
 export declare class ReadOnlyObservableSet<T> implements ObservableSetBase<T> {
-    static givenObservableSet<T>(observableSet: ObservableSet<T>): ReadOnlyObservableSet<T>;
+    static givenObservableSet<T>(observableSet: ObservableSetBase<T>): ReadOnlyObservableSet<T>;
     private _observableSet;
     private _isObservableSet;
     private constructor();

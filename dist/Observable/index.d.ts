@@ -17,4 +17,5 @@ export declare class Observable<T = number> implements ObservableBase<T> {
     private constructor();
     get value(): T;
     setValue(newValue: T): void;
+    toPromise(filter?: (value: T) => boolean): Promise<T>;
 }

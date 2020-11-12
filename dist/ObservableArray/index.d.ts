@@ -8,6 +8,7 @@ export interface ObservableArrayChange<T> {
 export interface ObservableArrayBase<T> {
     readonly didChange: TypedEvent<T[]>;
     readonly didChangeSteps: TypedEvent<ObservableArrayChange<T>[]>;
+    readonly count: number;
     hasValue(value: T, fromIndex?: number): boolean;
     toOptionalValueGivenIndex(index: number): T | undefined;
     toIndexOfValue(value: T, fromIndex?: number): number;

@@ -9,15 +9,15 @@ import {
 export class ReadOnlyObservableDict<T = unknown>
   implements ObservableDictBase<T> {
   static givenObservableDict<T>(
-    observableDict: ObservableDict<T>
+    observableDict: ObservableDictBase<T>
   ): ReadOnlyObservableDict<T> {
     return new ReadOnlyObservableDict<T>(observableDict);
   }
 
-  private _observableDict: ObservableDict<T>;
+  private _observableDict: ObservableDictBase<T>;
   private _isObservableDict = true;
 
-  private constructor(observableDict: ObservableDict<T>) {
+  private constructor(observableDict: ObservableDictBase<T>) {
     this._observableDict = observableDict;
   }
 

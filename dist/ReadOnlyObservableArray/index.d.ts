@@ -1,7 +1,7 @@
+import { ObservableArrayBase, ObservableArrayChange } from "../ObservableArray";
 import { TypedEvent } from "../TypedEvent";
-import { ObservableArray, ObservableArrayChange, ObservableArrayBase } from "../ObservableArray";
 export declare class ReadOnlyObservableArray<T> implements ObservableArrayBase<T> {
-    static givenObservableArray<T>(observableArray: ObservableArray<T>): ReadOnlyObservableArray<T>;
+    static givenObservableArray<T>(observableArray: ObservableArrayBase<T>): ReadOnlyObservableArray<T>;
     private _observableArray;
     private _isObservableArray;
     private constructor();

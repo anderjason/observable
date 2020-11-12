@@ -1,15 +1,17 @@
+import { ObservableBase } from "../Observable";
 import { TypedEvent } from "../TypedEvent";
-import { Observable, ObservableBase } from "../Observable";
 
 export class ReadOnlyObservable<T> implements ObservableBase<T> {
-  static givenObservable<T>(observable: Observable<T>): ReadOnlyObservable<T> {
+  static givenObservable<T>(
+    observable: ObservableBase<T>
+  ): ReadOnlyObservable<T> {
     return new ReadOnlyObservable<T>(observable);
   }
 
-  private _observable: Observable<T>;
+  private _observable: ObservableBase<T>;
   private _isObservable = true;
 
-  private constructor(observable: Observable<T>) {
+  private constructor(observable: ObservableBase<T>) {
     this._observable = observable;
   }
 

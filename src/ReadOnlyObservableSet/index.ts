@@ -7,15 +7,15 @@ import {
 
 export class ReadOnlyObservableSet<T> implements ObservableSetBase<T> {
   static givenObservableSet<T>(
-    observableSet: ObservableSet<T>
+    observableSet: ObservableSetBase<T>
   ): ReadOnlyObservableSet<T> {
     return new ReadOnlyObservableSet<T>(observableSet);
   }
 
-  private _observableSet: ObservableSet<T>;
+  private _observableSet: ObservableSetBase<T>;
   private _isObservableSet = true;
 
-  private constructor(observableSet: ObservableSet<T>) {
+  private constructor(observableSet: ObservableSetBase<T>) {
     this._observableSet = observableSet;
   }
 

@@ -1,5 +1,5 @@
-import { ObservableArray } from "..";
 import { TypedEvent } from "../TypedEvent";
+import { asyncGivenObservable } from "./_internal/asyncGivenObservable";
 
 export type ObservableFilter<T> = (newValue: T, oldValue: T) => boolean;
 
@@ -82,5 +82,12 @@ export class Observable<T = number> implements ObservableBase<T> {
 
     this._value = newValue;
     this.didChange.emit(newValue);
+  }
+
+  toPromise(filter?: (value: T) => boolean): Promise<T> {
+    return asyncGivenObservable({
+      observable: this,
+      filter,
+    });
   }
 }

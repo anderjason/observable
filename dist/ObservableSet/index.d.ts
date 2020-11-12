@@ -6,6 +6,7 @@ export interface ObservableSetChange<T> {
 export interface ObservableSetBase<T> {
     readonly didChange: TypedEvent<T[]>;
     readonly didChangeSteps: TypedEvent<ObservableSetChange<T>[]>;
+    readonly count: number;
     hasValue(value: T): boolean;
     toSet(): Set<T>;
     toArray(): T[];
