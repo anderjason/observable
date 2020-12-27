@@ -3,7 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.asyncGivenObservable = void 0;
 function asyncGivenObservable({ observable, filter, }) {
     if (observable.value != null) {
-        return Promise.resolve(observable.value);
+        if (filter == null || filter(observable.value)) {
+            return Promise.resolve(observable.value);
+        }
     }
     return new Promise((resolve) => {
         const receipt = observable.didChange.subscribe((value) => {

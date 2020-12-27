@@ -8,7 +8,9 @@ export function asyncGivenObservable<T>({
   filter?: (value: T) => boolean;
 }): Promise<T> {
   if (observable.value != null) {
-    return Promise.resolve(observable.value);
+    if (filter == null || filter(observable.value)) {
+      return Promise.resolve(observable.value);
+    }
   }
 
   return new Promise((resolve) => {
