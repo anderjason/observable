@@ -5,7 +5,6 @@ export interface TypedEventPromiseTimeout {
     behavior: "resolve" | "reject";
 }
 export interface TypedEventPromiseParams<T> {
-    event: TypedEvent<T>;
     timeout?: TypedEventPromiseTimeout;
     filter?: (value: T) => boolean;
 }

@@ -12,8 +12,6 @@ export interface TypedEventPromiseTimeout {
 }
 
 export interface TypedEventPromiseParams<T> {
-  event: TypedEvent<T>;
-
   timeout?: TypedEventPromiseTimeout;
   filter?: (value: T) => boolean;
 }
