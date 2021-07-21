@@ -6,6 +6,18 @@ export type TypedEventSubscription<T> = (
   oldValue?: T
 ) => void | Promise<void>;
 
+export interface TypedEventPromiseTimeout {
+  durationMs: number;
+  behavior: "resolve" | "reject";
+}
+
+export interface TypedEventPromiseParams<T> {
+  event: TypedEvent<T>;
+
+  timeout?: TypedEventPromiseTimeout;
+  filter?: (value: T) => boolean;
+}
+
 export class TypedEvent<T = void> {
   private _subscriptions: TypedEventSubscription<T>[] | undefined = undefined;
   private _lastValue?: T;
@@ -45,6 +57,42 @@ export class TypedEvent<T = void> {
     }
   }
 
+  toPromise(params?: TypedEventPromiseParams<T>): Promise<T> {
+    const { timeout, filter } = params || {};
+  
+    return new Promise((resolve, reject) => {
+      let timer: number;
+
+      const receipt = this.subscribe((value) => {
+        let isDone = true;
+        if (filter != null) {
+          isDone = filter(value);
+        }
+  
+        if (isDone) {
+          if (timer != null) {
+            clearTimeout(timer);
+          }
+          
+          receipt.cancel();
+          resolve(value);
+        }
+      });
+  
+      if (timeout != null) {
+        timer = setTimeout(() => {
+          receipt.cancel();
+  
+          if (timeout.behavior === "reject") {
+            reject(new Error("Timeout waiting for event"));
+          } else {
+            resolve(undefined);
+          }
+        }, timeout.durationMs)
+      }
+    })
+  }
+  
   private unsubscribe(handler: TypedEventSubscription<T>): void {
     if (this._subscriptions == null) {
       return;

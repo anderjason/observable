@@ -27,6 +27,36 @@ class TypedEvent {
             });
         }
     }
+    toPromise(params) {
+        const { timeout, filter } = params || {};
+        return new Promise((resolve, reject) => {
+            let timer;
+            const receipt = this.subscribe((value) => {
+                let isDone = true;
+                if (filter != null) {
+                    isDone = filter(value);
+                }
+                if (isDone) {
+                    if (timer != null) {
+                        clearTimeout(timer);
+                    }
+                    receipt.cancel();
+                    resolve(value);
+                }
+            });
+            if (timeout != null) {
+                timer = setTimeout(() => {
+                    receipt.cancel();
+                    if (timeout.behavior === "reject") {
+                        reject(new Error("Timeout waiting for event"));
+                    }
+                    else {
+                        resolve(undefined);
+                    }
+                }, timeout.durationMs);
+            }
+        });
+    }
     unsubscribe(handler) {
         if (this._subscriptions == null) {
             return;
