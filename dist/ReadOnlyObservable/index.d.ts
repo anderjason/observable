@@ -7,4 +7,5 @@ export declare class ReadOnlyObservable<T> implements ObservableBase<T> {
     private constructor();
     get value(): T;
     get didChange(): TypedEvent<T>;
+    toPromise(filter?: (value: T) => boolean): Promise<T>;
 }

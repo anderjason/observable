@@ -1,4 +1,5 @@
 import { ObservableBase } from "../Observable";
+import { asyncGivenObservable } from "../Observable/_internal/asyncGivenObservable";
 import { TypedEvent } from "../TypedEvent";
 
 export class ReadOnlyObservable<T> implements ObservableBase<T> {
@@ -21,5 +22,12 @@ export class ReadOnlyObservable<T> implements ObservableBase<T> {
 
   get didChange(): TypedEvent<T> {
     return this._observable.didChange;
+  }
+
+  toPromise(filter?: (value: T) => boolean): Promise<T> {
+    return asyncGivenObservable({
+      observable: this,
+      filter,
+    });
   }
 }
