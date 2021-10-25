@@ -64,7 +64,7 @@ function delay(duration: number): Promise<void> {
 }
 
 Test.define("Observable can return a promise", () => {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     const instance = Observable.ofEmpty<string>();
     const delayMs = 150;
 
@@ -101,7 +101,7 @@ Test.define("Observable can return a promise", () => {
 Test.define(
   "Observable promise resolves immediately if the value is already set",
   () => {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       const instance = Observable.givenValue<string>("hello world");
 
       instance.toPromise().then((result) => {
@@ -123,7 +123,7 @@ Test.define(
 Test.define(
   "Observable promise waits for a matching value when passed a filter",
   () => {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       const instance = Observable.ofEmpty<string>();
 
       const filter = (input: string): boolean => {

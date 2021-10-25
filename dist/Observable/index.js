@@ -58,7 +58,7 @@ class Observable {
         this.didChange.emit(newValue);
     }
     toPromise(filter) {
-        return asyncGivenObservable_1.asyncGivenObservable({
+        return (0, asyncGivenObservable_1.asyncGivenObservable)({
             observable: this,
             filter,
         });

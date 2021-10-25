@@ -14,6 +14,13 @@ export function asyncGivenObservable<T>({
   }
 
   return new Promise((resolve) => {
+    if (observable.value != null) {
+      if (filter == null || filter(observable.value)) {
+        resolve(observable.value);
+        return;
+      }
+    }
+
     const receipt = observable.didChange.subscribe((value) => {
       if (value == null) {
         return;
